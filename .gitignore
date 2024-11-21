@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# Typescript
+/Dist/
+
+# Env files
+.env
+
+# NPM package lock
+package-lock.json
+
+.DS_Store
+
+# IDE or editor specific files
+.vscode/
+.idea/

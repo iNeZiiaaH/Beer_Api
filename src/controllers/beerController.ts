@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Client } from 'pg';
 
-// Configurer le client PostgreSQL
+// Configure la bdd pour ce connecter PostgreSQL
 const client = new Client({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
@@ -18,7 +18,42 @@ client.connect()
         console.error('Erreur de connexion à PostgreSQL:', err);
     });
 
-// Créer une bière
+/**
+ * @swagger
+ * /beers:
+ *   post:
+ *     summary: Crée une nouvelle bière
+ *     description: Permet de créer une nouvelle bière dans la base de données
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Le nom de la bière
+ *               description:
+ *                 type: string
+ *                 description: Une description de la bière
+ *               abv:
+ *                 type: number
+ *                 description: Le pourcentage d'alcool de la bière
+ *               brewery_id:
+ *                 type: integer
+ *                 description: L'ID de la brasserie
+ *               category_id:
+ *                 type: integer
+ *                 description: L'ID de la catégorie
+ *     responses:
+ *       201:
+ *         description: Bière créée avec succès
+ *       400:
+ *         description: Données manquantes dans la requête
+ *       500:
+ *         description: Erreur serveur
+ */
 export const createBeer = (req: Request, res: Response): void => {
     const { name, description, abv, brewery_id, category_id } = req.body;
 
@@ -42,7 +77,18 @@ export const createBeer = (req: Request, res: Response): void => {
     });
 };
 
-// Lire toutes les bières
+/**
+ * @swagger
+ * /beers:
+ *   get:
+ *     summary: Récupère toutes les bières
+ *     description: Permet de récupérer toutes les bières disponibles dans la base de données
+ *     responses:
+ *       200:
+ *         description: Liste des bières récupérée avec succès
+ *       500:
+ *         description: Erreur serveur
+ */
 export const getAllBeers = (req: Request, res: Response): void => {
     client.query('SELECT * FROM Beers;', (err, result) => {
         if (err) {
@@ -54,7 +100,27 @@ export const getAllBeers = (req: Request, res: Response): void => {
     });
 };
 
-// Détails d'une bière par ID
+/**
+ * @swagger
+ * /beers/{id}:
+ *   get:
+ *     summary: Récupère les détails d'une bière
+ *     description: Permet de récupérer les informations détaillées d'une bière spécifiée par son ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: L'ID de la bière à récupérer
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Détails de la bière récupérés avec succès
+ *       404:
+ *         description: Bière non trouvée
+ *       500:
+ *         description: Erreur serveur
+ */
 export const getBeerById = (req: Request, res: Response): void => {
     const beerId = req.params.id;
     client.query('SELECT * FROM Beers WHERE id_beer = $1;', [beerId], (err, result) => {
@@ -69,7 +135,44 @@ export const getBeerById = (req: Request, res: Response): void => {
     });
 };
 
-// Mettre à jour une bière
+/**
+ * @swagger
+ * /beers/{id}:
+ *   put:
+ *     summary: Met à jour une bière
+ *     description: Permet de mettre à jour les informations d'une bière existante
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: L'ID de la bière à mettre à jour
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               abv:
+ *                 type: number
+ *               brewery_id:
+ *                 type: integer
+ *               category_id:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Bière mise à jour avec succès
+ *       404:
+ *         description: Bière non trouvée
+ *       500:
+ *         description: Erreur serveur
+ */
 export const updateBeer = (req: Request, res: Response): void => {
     const beerId = req.params.id;
     const { name, description, abv, brewery_id, category_id } = req.body;
@@ -92,7 +195,27 @@ export const updateBeer = (req: Request, res: Response): void => {
     });
 };
 
-// Supprimer une bière
+/**
+ * @swagger
+ * /beers/{id}:
+ *   delete:
+ *     summary: Supprime une bière
+ *     description: Permet de supprimer une bière spécifiée par son ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: L'ID de la bière à supprimer
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Bière supprimée avec succès
+ *       404:
+ *         description: Bière non trouvée
+ *       500:
+ *         description: Erreur serveur
+ */
 export const deleteBeer = (req: Request, res: Response): void => {
     const beerId = req.params.id;
     client.query('DELETE FROM Beers WHERE id_beer = $1 RETURNING *;', [beerId], (err, result) => {
