@@ -2,9 +2,10 @@
   "name": "api_beer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "start": "nodemon src/index.ts",
+    "build" : "tsc"
   },
   "keywords": [],
   "author": "",

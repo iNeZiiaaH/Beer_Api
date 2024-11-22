@@ -1,4 +1,4 @@
-FROM node:22
+FROM node:20
 
 # Définit le répertoire de travail
 WORKDIR /usr/src/API_BEER
@@ -12,11 +12,13 @@ RUN npm install
 # Copie le reste des fichiers de l'application
 COPY . .
 
+ENV DEBUG=*
+
 #le port de l'API 
 EXPOSE 3000
 
 RUN ls -la /usr/src/API_BEER
 
-
 # Démarre l'appli
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
+

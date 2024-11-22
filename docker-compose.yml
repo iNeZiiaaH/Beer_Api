@@ -4,11 +4,11 @@ services:
     container_name: beer_database_postgres_api
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5433:5433"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./script_sql:/docker-entrypoint-initdb.d/
@@ -24,8 +24,7 @@ services:
     env_file:
       - .env 
     volumes:
-      - .:/usr/src/beer-api  # Monte le répertoire local dans le conteneur
-    command: npm run dev
+      - .:/usr/src/API_BEER  # Monte le répertoire local dans le conteneur
 
 volumes:
   postgres_data:
