@@ -7,6 +7,8 @@ const router = express.Router();
  * @swagger
  * /beers:
  *   post:
+ *     tags:
+ *       - Beers
  *     summary: Créer une nouvelle bière
  *     description: Ajouter une nouvelle bière à la base de données
  *     requestBody:
@@ -38,6 +40,8 @@ router.post('/beers', createBeer);
  * @swagger
  * /beers:
  *   get:
+ *     tags:
+ *       - Beers
  *     summary: Obtenir toutes les bières
  *     description: Récupérer toutes les bières de la base de données
  *     responses:
@@ -50,6 +54,8 @@ router.get('/beers', getAllBeers);
  * @swagger
  * /beers/{id}:
  *   get:
+ *     tags:
+ *       - Beers
  *     summary: Obtenir une bière par ID
  *     description: Récupérer une bière spécifique par son ID
  *     parameters:
@@ -71,6 +77,8 @@ router.get('/beers/:id', getBeerById);
  * @swagger
  * /beers/{id}:
  *   put:
+ *     tags:
+ *       - Beers
  *     summary: Mettre à jour une bière
  *     description: Modifier les informations d'une bière
  *     parameters:
@@ -111,6 +119,8 @@ router.put('/beers/:id', updateBeer);
  * @swagger
  * /beers/{id}:
  *   delete:
+ *     tags:
+ *       - Beers
  *     summary: Supprimer une bière
  *     description: Supprimer une bière de la base de données
  *     parameters:
@@ -127,5 +137,6 @@ router.put('/beers/:id', updateBeer);
  *         description: Bière non trouvée
  */
 router.delete('/beers/:id', deleteBeer);
+
 
 export default router;
