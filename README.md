@@ -81,8 +81,11 @@ docker-compose ps
 | POST    | `/api/beers`            | Ajoute une nouvelle bière        |  
 | PUT     | `/api/beers/:id`        | Met à jour une bière existante   |  
 | DELETE  | `/api/beers/:id`        | Supprime une bière               |  
-| GET     | `/api/breweries`        | Liste toutes les brasseries      |  
-| POST    | `/api/breweries`        | Ajoute une nouvelle brasserie    |  
+| GET     | `/api/breweries`        | Liste toutes les brasseries      | 
+| GET     | `/api/breweries/:id`    | Détails d'une Brasserie          | 
+| POST    | `/api/breweries`        | Ajoute une nouvelle brasserie    |
+| PUT     | `/api/breweries/:id`    | Modification d'une Brasserie     | 
+| DELETE  | `/api/breweries/:id`    | Suppresion d'une brasserie       |  
 
 ---
 
