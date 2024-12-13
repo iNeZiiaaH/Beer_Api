@@ -1,7 +1,6 @@
 import express from 'express';
 import { swaggerSpec, swaggerUi } from './swagger';
-import beerRoutes from './routes/beerRoutes';
-import brewerieRoutes from './routes/brewerieRoutes';
+import apiRoutes from './routes/apiRoutes';
 
 const app = express();
 
@@ -12,8 +11,8 @@ app.use(express.json());
 app.use('/api/biere-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Utilisation des routes
-app.use('/api', beerRoutes);
-app.use('/api', brewerieRoutes);
+app.use('/api', apiRoutes);
+
 
 const port = process.env.API_PORT || 3000;
 app.listen(port, () => {

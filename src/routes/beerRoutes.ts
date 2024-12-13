@@ -5,6 +5,14 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Beers
+ *   description: Gestion des bieres
+ */
+
+
+/**
+ * @swagger
  * /beers:
  *   post:
  *     tags:
@@ -137,6 +145,5 @@ router.put('/beers/:id', updateBeer);
  *         description: Bière non trouvée
  */
 router.delete('/beers/:id', deleteBeer);
-
 
 export default router;

@@ -11,6 +11,14 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Breweries
+ *   description: Gestion des brasseries
+ */
+
+
+/**
+ * @swagger
  * /breweries:
  *   post:
  *     summary: Créer une nouvelle brasserie

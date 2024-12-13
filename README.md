@@ -52,11 +52,23 @@ Créez un fichier `.env` a la racine du projet avec les variables suivantes :
 ```env
 DB_HOST=db
 DB_PORT=5432
-DB_USER=username
-DB_PASSWORD=password
-DB_NAME=madbname
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=securepassword
+POSTGRES_DB=beer_database
 API_PORT=3000
 ```  
+
+Avant de lancer la commande docker compose, il vous faudras faire 
+
+```bash
+npm install
+```
+
+Puis ne pas oublier de build les fichier TypeScript avec la commande 
+
+```bash
+npx tsc
+```
 
 ### 3. **Lancer l'API avec Docker Compose**  
 Démarrez les services :  
