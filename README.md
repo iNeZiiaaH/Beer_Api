@@ -21,11 +21,6 @@ Cette API REST est la suite logique de l'application de gestion des bières arti
 
 ---
 
-## 🛠️ **Technologies et Outils Utilisés**  
-
-Voici les liens ajoutés dans la section demandée :  
-
----
 
 ## 🛠️ **Technologies et Outils Utilisés**  
 
