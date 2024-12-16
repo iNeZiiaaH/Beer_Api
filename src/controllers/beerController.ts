@@ -1,130 +1,96 @@
-import { Request, Response } from 'express';
-import client from '../config/database';
+import { Request, Response } from "express";
+import BeerRepository from "../repository/beerRepository";
 
-export const createBeer = (req: Request, res: Response): void => {
+export const getAllBeers = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const beers = await BeerRepository.getAll();
+        res.status(200).json(beers);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la récupération des bières." });
+    }
+};
+
+export const getBeerById = async (req: Request, res: Response): Promise<void> => {
+    const beerId = parseInt(req.params.id, 10);
+
+    if (isNaN(beerId)) {
+        res.status(400).json({ error: "ID invalide." });
+        return;
+    }
+
+    try {
+        const beer = await BeerRepository.getById(beerId);
+        if (!beer) {
+            res.status(404).json({ error: "Bière non trouvée." });
+        } else {
+            res.status(200).json(beer);
+        }
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la récupération de la bière." });
+    }
+};
+
+export const createBeer = async (req: Request, res: Response): Promise<void> => {
     const { name, description, abv, brewery_id, category_id } = req.body;
 
-    if (!name || abv === undefined || !brewery_id) {
-        res.status(400).send('Le nom, l\'ABV, et l\'ID de brasserie sont requis');
+    if (!name || abv === undefined || !brewery_id || !category_id) {
+        res.status(400).json({ error: "Tous les champs obligatoires doivent être remplis." });
         return;
     }
 
-    const query = `
-        INSERT INTO Beers (name, description, abv, brewery_id, category_id)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING *;
-    `;
-
-    client.query(query, [name, description, abv, brewery_id, category_id], (err, result) => {
-        if (err) {
-            console.error('Erreur lors de l\'insertion dans la base de données:', err);
-            res.status(500).send('Erreur serveur');
-        } else {
-            res.status(201).json(result.rows[0]);
-        }
-    });
+    try {
+        const newBeer = await BeerRepository.create({ name, description, abv, brewery_id, category_id });
+        res.status(201).json(newBeer);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la création de la bière." });
+    }
 };
 
-export const getAllBeers = (req: Request, res: Response): void => {
-    client.query('SELECT * FROM Beers;', (err, result) => {
-        if (err) {
-            console.error('Erreur lors de la requête SQL:', err);
-            res.status(500).send('Erreur serveur');
-        } else {
-            res.json(result.rows);
-        }
-    });
-};
-
-export const getBeerById = (req: Request, res: Response): void => {
+export const updateBeer = async (req: Request, res: Response): Promise<void> => {
     const beerId = parseInt(req.params.id, 10);
-
-    if (isNaN(beerId)) {
-        res.status(400).send('ID invalide');
-        return;
-    }
-
-    client.query('SELECT * FROM Beers WHERE id_beer = $1;', [beerId], (err, result) => {
-        if (err) {
-            console.error('Erreur lors de la requête SQL:', err.message, err.stack);
-            res.status(500).send('Erreur serveur');
-        } else if (result.rows.length === 0) {
-            res.status(404).send('Bière non trouvée');
-        } else {
-            res.json(result.rows[0]);
-        }
-    });
-};
-
-
-export const updateBeer = (req: Request, res: Response): void => {
-    const beerId = parseInt(req.params.id, 10);
-
-    if (isNaN(beerId)) {
-        res.status(400).json({ error: 'ID invalide. Veuillez fournir un entier valide.' });
-        return;
-    }
-
     const { name, description, abv, brewery_id, category_id } = req.body;
 
-    if (!name || !description || isNaN(abv) || isNaN(brewery_id) || isNaN(category_id)) {
-        res.status(400).json({
-            error: 'Tous les champs requis doivent etre valide',
-        });
+    if (isNaN(beerId)) {
+        res.status(400).json({ error: "ID invalide." });
         return;
     }
 
-    const query = `
-        UPDATE Beers
-        SET name = $1, description = $2, abv = $3, brewery_id = $4, category_id = $5, updated_at = CURRENT_TIMESTAMP
-        WHERE id_beer = $6
-        RETURNING *;
-    `;
+    if (!name || abv === undefined || !brewery_id || !category_id) {
+        res.status(400).json({ error: "Tous les champs obligatoires doivent être remplis." });
+        return;
+    }
 
-    client.query(query, [name, description, abv, brewery_id, category_id, beerId], (err, result) => {
-        if (err) {
-            console.error('Erreur lors de la mise à jour de la bière:', err.message, err.stack);
-            res.status(500).json({ error: 'Erreur serveur lors de la mise à jour.' });
-            return;
+    try {
+        const updatedBeer = await BeerRepository.update(beerId, { name, description, abv, brewery_id, category_id });
+        if (!updatedBeer) {
+            res.status(404).json({ error: "Bière non trouvée." });
+        } else {
+            res.status(200).json(updatedBeer);
         }
-
-        if (result.rows.length === 0) {
-            res.status(404).json({ error: 'Bière non trouvée. Aucune mise à jour effectuée.' });
-            return;
-        }
-
-        res.status(200).json({
-            message: 'Bière mise à jour avec succès.',
-            updatedBeer: result.rows[0],
-        });
-    });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la mise à jour de la bière." });
+    }
 };
 
-
-export const deleteBeer = (req: Request, res: Response): void => {
+export const deleteBeer = async (req: Request, res: Response): Promise<void> => {
     const beerId = parseInt(req.params.id, 10);
 
     if (isNaN(beerId)) {
-        res.status(400).json({ error: 'ID invalide. Veuillez fournir un entier valide.' });
+        res.status(400).json({ error: "ID invalide." });
         return;
     }
 
-    client.query('DELETE FROM Beers WHERE id_beer = $1 RETURNING *;', [beerId], (err, result) => {
-        if (err) {
-            console.error('Erreur lors de la suppression de la bière:', err.message, err.stack);
-            res.status(500).json({ error: 'Erreur serveur lors de la suppression.' });
-            return;
+    try {
+        const deletedBeer = await BeerRepository.delete(beerId);
+        if (!deletedBeer) {
+            res.status(404).json({ error: "Bière non trouvée." });
+        } else {
+            res.status(200).json({
+                message: "Bière supprimée avec succès.",
+                deletedBeer,
+            });
         }
-
-        if (result.rows.length === 0) {
-            res.status(404).json({ error: 'Bière non trouvée. Aucune suppression effectuée.' });
-            return;
-        }
-
-        res.status(200).json({
-            message: 'Bière supprimée avec succès.',
-            deletedBeer: result.rows[0],
-        });
-    });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la suppression de la bière." });
+    }
 };
-

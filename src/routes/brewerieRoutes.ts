@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   createBrewery,
-  getBreweries,
+  getAllBreweries,
   getBreweryById,
   updateBrewery,
   deleteBrewery
@@ -81,7 +81,7 @@ router.post('/breweries', createBrewery);
  *       500:
  *         description: Erreur lors de la récupération des brasseries
  */
-router.get('/breweries', getBreweries);
+router.get('/breweries', getAllBreweries);
 
 /**
  * @swagger
