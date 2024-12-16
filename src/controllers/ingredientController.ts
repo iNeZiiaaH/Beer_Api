@@ -1,96 +1,54 @@
 import { Request, Response } from "express";
-import IngredientRepository from "../repository/ingredientRepository";
+import IngredientService from "../services/IngredientService";
 
 export const getAllIngredients = async (req: Request, res: Response): Promise<void> => {
     try {
-        const ingredients = await IngredientRepository.getAll();
+        const ingredients = await IngredientService.getAllIngredients();
         res.status(200).json(ingredients);
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la récupération des ingrédients." });
+    } catch (err: any) {
+        res.status(500).json({ error: err.message });
     }
 };
 
 export const getIngredientById = async (req: Request, res: Response): Promise<void> => {
+    // Convertie en nombre entier
     const ingredientId = parseInt(req.params.id, 10);
 
-    if (isNaN(ingredientId)) {
-        res.status(400).json({ error: "ID invalide." });
-        return;
-    }
-
     try {
-        const ingredient = await IngredientRepository.getById(ingredientId);
-        if (!ingredient) {
-            res.status(404).json({ error: "Ingrédient non trouvé." });
-        } else {
-            res.status(200).json(ingredient);
-        }
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la récupération de l'ingrédient." });
+        const ingredient = await IngredientService.getIngredientById(ingredientId);
+        res.status(200).json(ingredient);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };
 
 export const createIngredient = async (req: Request, res: Response): Promise<void> => {
-    const { name, type } = req.body;
-
-    if (!name || !type) {
-        res.status(400).json({ error: "Le nom et le type sont requis." });
-        return;
-    }
-
     try {
-        const newIngredient = await IngredientRepository.create({ name, type });
+        const newIngredient = await IngredientService.createIngredient(req.body);
         res.status(201).json(newIngredient);
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la création de l'ingrédient." });
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };
 
 export const updateIngredient = async (req: Request, res: Response): Promise<void> => {
     const ingredientId = parseInt(req.params.id, 10);
-    const { name, type } = req.body;
-
-    if (isNaN(ingredientId)) {
-        res.status(400).json({ error: "ID invalide." });
-        return;
-    }
-
-    if (!name || !type) {
-        res.status(400).json({ error: "Le nom et le type sont requis." });
-        return;
-    }
 
     try {
-        const updatedIngredient = await IngredientRepository.update(ingredientId, { name, type });
-        if (!updatedIngredient) {
-            res.status(404).json({ error: "Ingrédient non trouvé." });
-        } else {
-            res.status(200).json(updatedIngredient);
-        }
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la mise à jour de l'ingrédient." });
+        const updatedIngredient = await IngredientService.updateIngredient(ingredientId, req.body);
+        res.status(200).json(updatedIngredient);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };
 
 export const deleteIngredient = async (req: Request, res: Response): Promise<void> => {
     const ingredientId = parseInt(req.params.id, 10);
 
-    if (isNaN(ingredientId)) {
-        res.status(400).json({ error: "ID invalide." });
-        return;
-    }
-
     try {
-        const deletedIngredient = await IngredientRepository.delete(ingredientId);
-        if (!deletedIngredient) {
-            res.status(404).json({ error: "Ingrédient non trouvé." });
-        } else {
-            res.status(200).json({
-                message: "Ingrédient supprimé avec succès.",
-                deletedIngredient,
-            });
-        }
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la suppression de l'ingrédient." });
+        const deletedIngredient = await IngredientService.deleteIngredient(ingredientId);
+        res.status(200).json({ message: "Ingrédient supprimé avec succès.", deletedIngredient });
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };

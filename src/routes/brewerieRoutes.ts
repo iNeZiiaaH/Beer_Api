@@ -5,7 +5,7 @@ import {
   getBreweryById,
   updateBrewery,
   deleteBrewery
-} from '../controllers/breweriesController';
+} from '../controllers/BreweriesController';
 
 const router = express.Router();
 

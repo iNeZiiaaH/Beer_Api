@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import beerRoutes from './beerRoutes';
-import brewerieRoutes from './brewerieRoutes';
-import categoryRoutes from './categoryRoutes';
-import ingredientRoutes from './ingredientRoutes';
-import userRoutes from './userRoutes';
+import beerRoutes from './BeerRoutes';
+import brewerieRoutes from './BrewerieRoutes';
+import categoryRoutes from './CategoryRoutes';
+import ingredientRoutes from './IngredientRoutes';
+import userRoutes from './UserRoutes';
 
 const router = Router();
 

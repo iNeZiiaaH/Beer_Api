@@ -1,96 +1,54 @@
 import { Request, Response } from "express";
-import BreweryRepository from "../repository/breweryRepository";
+import BreweryService from "../services/BreweryService";
 
 export const getAllBreweries = async (req: Request, res: Response): Promise<void> => {
     try {
-        const breweries = await BreweryRepository.getAll();
+        const breweries = await BreweryService.getAllBreweries();
         res.status(200).json(breweries);
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la récupération des brasseries." });
+    } catch (err: any) {
+        res.status(500).json({ error: err.message });
     }
 };
 
 export const getBreweryById = async (req: Request, res: Response): Promise<void> => {
     const breweryId = parseInt(req.params.id, 10);
 
-    if (isNaN(breweryId)) {
-        res.status(400).json({ error: "ID invalide." });
-        return;
-    }
-
     try {
-        const brewery = await BreweryRepository.getById(breweryId);
-        if (!brewery) {
-            res.status(404).json({ error: "Brasserie non trouvée." });
-        } else {
-            res.status(200).json(brewery);
-        }
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la récupération de la brasserie." });
+        const brewery = await BreweryService.getBreweryById(breweryId);
+        res.status(200).json(brewery);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };
 
 export const createBrewery = async (req: Request, res: Response): Promise<void> => {
-    const { name, country } = req.body;
-
-    if (!name || !country) {
-        res.status(400).json({ error: "Le nom et le pays sont obligatoires." });
-        return;
-    }
-
     try {
-        const newBrewery = await BreweryRepository.create({ name, country });
+        const newBrewery = await BreweryService.createBrewery(req.body);
         res.status(201).json(newBrewery);
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la création de la brasserie." });
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };
 
 export const updateBrewery = async (req: Request, res: Response): Promise<void> => {
+    // Convertie en nombre entier
     const breweryId = parseInt(req.params.id, 10);
-    const { name, country } = req.body;
-
-    if (isNaN(breweryId)) {
-        res.status(400).json({ error: "ID invalide." });
-        return;
-    }
-
-    if (!name || !country) {
-        res.status(400).json({ error: "Le nom et le pays sont obligatoires." });
-        return;
-    }
 
     try {
-        const updatedBrewery = await BreweryRepository.update(breweryId, { name, country });
-        if (!updatedBrewery) {
-            res.status(404).json({ error: "Brasserie non trouvée." });
-        } else {
-            res.status(200).json(updatedBrewery);
-        }
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la mise à jour de la brasserie." });
+        const updatedBrewery = await BreweryService.updateBrewery(breweryId, req.body);
+        res.status(200).json(updatedBrewery);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };
 
 export const deleteBrewery = async (req: Request, res: Response): Promise<void> => {
     const breweryId = parseInt(req.params.id, 10);
 
-    if (isNaN(breweryId)) {
-        res.status(400).json({ error: "ID invalide." });
-        return;
-    }
-
     try {
-        const deletedBrewery = await BreweryRepository.delete(breweryId);
-        if (!deletedBrewery) {
-            res.status(404).json({ error: "Brasserie non trouvée." });
-        } else {
-            res.status(200).json({
-                message: "Brasserie supprimée avec succès.",
-                deletedBrewery,
-            });
-        }
-    } catch (err) {
-        res.status(500).json({ error: "Erreur lors de la suppression de la brasserie." });
+        const deletedBrewery = await BreweryService.deleteBrewery(breweryId);
+        res.status(200).json({ message: "Brasserie supprimée avec succès.", deletedBrewery });
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
     }
 };

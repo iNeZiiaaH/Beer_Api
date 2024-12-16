@@ -1,6 +1,6 @@
 import express from 'express';
 import { swaggerSpec, swaggerUi } from './swagger';
-import apiRoutes from './routes/apiRoutes';
+import apiRoutes from './routes/ApiRoutes';
 
 const app = express();
 
@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 // Swagger pour afficher l'interface de l'API
-app.use('/api/biere-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/beer-api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Utilisation des routes
 app.use('/api', apiRoutes);
@@ -17,6 +17,6 @@ app.use('/api', apiRoutes);
 export const startServer = (port: number | string) => {
     app.listen(port, () => {
         console.log(`API des bières sur http://localhost:${port}`);
-        console.log(`Swagger API Beer sur http://localhost:${port}/api/biere-docs`);
+        console.log(`Swagger API Beer sur http://localhost:${port}/api/beer-api`);
     });
 };

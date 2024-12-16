@@ -1,5 +1,5 @@
 import client from "../config/database";
-import { Category } from "../models/category";
+import { Category } from "../models/Category";
 
 class CategoryRepository {
     async getAll(): Promise<Category[]> {
