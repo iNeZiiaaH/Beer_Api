@@ -3,7 +3,7 @@ import { Client } from 'pg';
 
 dotenv.config();
 
-// Configuration de la connexion PostgreSQL
+// Configuration PostGres
 const client = new Client({
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT || '5432', 10),
@@ -12,7 +12,6 @@ const client = new Client({
     database: process.env.POSTGRES_DB,
 });
 
-// Connexion à la base de données
 client.connect()
     .then(() => console.log('Connexion réussie à la base de données PostgreSQL'))
     .catch(err => console.error('Erreur de connexion à PostgreSQL:', err));
