@@ -59,7 +59,7 @@ Avant de lancer la commande docker compose, il vous faudras faire
 npm install
 ```
 
-Puis ne pas oublier de build les fichier TypeScript avec la commande 
+Puis ne pas oublier de build les fichiers TypeScript avec la commande 
 
 ```bash
 npx tsc
@@ -100,7 +100,7 @@ docker-compose ps
 
 L'API est Gérer par swagger pour une meilleur interface  :  
 
-📍 **URL Swagger** : [http://localhost:3000/api-docs](http://localhost:3000/api-docs)  
+📍 **URL Swagger** : [http://localhost:3000/api/beer-api](http://localhost:3000/api/beer-api)  
 
 ---
 

@@ -20,12 +20,18 @@ class BeerService {
     }
 
     async createBeer(beerData: Partial<Beer>): Promise<Beer> {
-        if (!beerData.name || !beerData.abv || !beerData.brewery_id || !beerData.category_id) {
+        if (
+            !beerData.name ||
+            !beerData.hasOwnProperty('abv') ||
+            !beerData.hasOwnProperty('brewery_id') ||
+            !beerData.hasOwnProperty('category_id')
+        ) {
             throw new Error("Tous les champs requis doivent être fournis.");
         }
-
+    
         return await BeerRepository.create(beerData);
     }
+    
 
     async updateBeer(id: number, beerData: Partial<Beer>): Promise<Beer> {
         if (isNaN(id)) {

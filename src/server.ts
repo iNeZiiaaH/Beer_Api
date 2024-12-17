@@ -3,9 +3,11 @@ import { swaggerSpec, swaggerUi } from './swagger';
 import apiRoutes from './routes/ApiRoutes';
 
 const app = express();
-
+const cors = require('cors');
 // Middleware pour le JSON
 app.use(express.json());
+
+app.use(cors());
 
 // Swagger pour afficher l'interface de l'API
 app.use('/api/beer-api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
