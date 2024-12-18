@@ -56,19 +56,13 @@ API_PORT=3000
 Avant de lancer la commande docker compose, il vous faudras faire 
 
 ```bash
-npm install
-```
-
-Puis ne pas oublier de build les fichiers TypeScript avec la commande 
-
-```bash
 npx tsc
 ```
 
 ### 3. **Lancer l'API avec Docker Compose**  
 Démarrez les services :  
 ```bash
-docker-compose up -d
+docker-compose up --build
 ```  
 
 Vérifiez que les conteneurs sont bien actifs :  
