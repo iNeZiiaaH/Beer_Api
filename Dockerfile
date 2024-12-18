@@ -17,8 +17,5 @@ ENV DEBUG=*
 #le port de l'API 
 EXPOSE 3000
 
-RUN ls -la /usr/src/API_BEER
-
 # Démarre l'appli
 CMD ["npm", "run", "start"]
-

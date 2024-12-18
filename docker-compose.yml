@@ -24,7 +24,8 @@ services:
     env_file:
       - .env 
     volumes:
-      - .:/usr/src/API_BEER  # Monte le répertoire local dans le conteneur
+      - .:/usr/src/API_BEER
+      - /usr/src/API_BEER/node_modules 
 
 volumes:
   postgres_data:
