@@ -53,7 +53,7 @@ POSTGRES_DB=beer_database
 API_PORT=3000
 ```  
 
-Avant de lancer la commande docker compose, il vous faudras faire 
+Avant de lancer la commande docker compose, il vous faudras build les fichier TypeScript
 
 ```bash
 npx tsc
