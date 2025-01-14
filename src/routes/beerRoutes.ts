@@ -1,5 +1,5 @@
 import express from 'express';
-import { createBeer, getAllBeers, getBeerById, updateBeer, deleteBeer } from '../controllers/BeerController';
+import { createBeer, getAllBeers, getBeerById, updateBeer, deleteBeer, getBeersByBreweryId } from '../controllers/BeerController';
 
 const router = express.Router();
 
@@ -145,5 +145,28 @@ router.put('/beers/:id', updateBeer);
  *         description: Bière non trouvée
  */
 router.delete('/beers/:id', deleteBeer);
+
+/**
+ * @swagger
+ * /breweries/{breweryId}/beers:
+ *   get:
+ *     tags:
+ *       - Beers
+ *     summary: Obtenir les bières associées à une brasserie
+ *     description: Récupérer toutes les bières associées à une brasserie spécifique
+ *     parameters:
+ *       - in: path
+ *         name: breweryId
+ *         required: true
+ *         description: ID de la brasserie
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Liste des bières associées
+ *       404:
+ *         description: Brasserie ou bières non trouvées
+ */
+router.get('/breweries/:breweryId/beers', getBeersByBreweryId);
 
 export default router;

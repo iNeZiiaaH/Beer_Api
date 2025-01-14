@@ -1,4 +1,4 @@
-import BreweryRepository from "../repository/BreweryRepository";
+import BreweryRepository from "../repository/breweryRepository";
 import { Brewery } from "../models/Brewery";
 
 class BreweryService {

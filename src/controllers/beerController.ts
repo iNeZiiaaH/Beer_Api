@@ -52,3 +52,15 @@ export const deleteBeer = async (req: Request, res: Response): Promise<void> => 
         res.status(400).json({ error: err.message });
     }
 };
+
+export const getBeersByBreweryId = async (req: Request, res: Response): Promise<void> => {
+    const breweryId = parseInt(req.params.breweryId, 10);
+
+    try {
+        const beers = await BeerService.getBeersByBreweryId(breweryId);
+        res.status(200).json(beers);
+    } catch (err: any) {
+        res.status(404).json({ error: err.message });
+    }
+};
+

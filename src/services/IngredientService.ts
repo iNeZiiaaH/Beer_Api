@@ -1,4 +1,4 @@
-import IngredientRepository from "../repository/IngredientRepository";
+import IngredientRepository from "../repository/ingredientRepository";
 import { Ingredient } from "../models/Ingredient";
 
 class IngredientService {

@@ -36,6 +36,13 @@ class BeerRepository {
         );
         return result.rows.length ? result.rows[0] : null;
     }
+
+    async findByBreweryId(breweryId: number): Promise<Beer[]> {
+        const result = await client.query(
+            "SELECT * FROM Beers WHERE brewery_id = $1;", [breweryId]
+        );
+        return result.rows;
+    }
 }
 
 export default new BeerRepository();

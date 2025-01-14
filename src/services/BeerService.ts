@@ -1,4 +1,4 @@
-import BeerRepository from "../repository/BeerRepository";
+import BeerRepository from "../repository/beerRepository";
 import { Beer } from "../models/Beer";
 
 class BeerService {
@@ -58,6 +58,20 @@ class BeerService {
 
         return deletedBeer;
     }
+
+    async getBeersByBreweryId(breweryId: number): Promise<Beer[]> {
+        if (isNaN(breweryId)) {
+            throw new Error("L'ID de la brasserie est invalide.");
+        }
+    
+        const beers = await BeerRepository.findByBreweryId(breweryId);
+        if (!beers.length) {
+            throw new Error("Aucune bière trouvée pour cette brasserie.");
+        }
+    
+        return beers;
+    }
+    
 }
 
 export default new BeerService();
