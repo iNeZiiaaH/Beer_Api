@@ -1,12 +1,14 @@
 import express from 'express';
+import cors from 'cors';
 import { swaggerSpec, swaggerUi } from './swagger';
 import apiRoutes from './routes/apiRoutes';
 
 const app = express();
-const cors = require('cors');
+
 // Middleware pour le JSON
 app.use(express.json());
 
+// Utiliser cors
 app.use(cors());
 
 // Swagger pour afficher l'interface de l'API
