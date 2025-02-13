@@ -63,4 +63,3 @@ export const getBeersByBreweryId = async (req: Request, res: Response): Promise<
         res.status(404).json({ error: err.message });
     }
 };
-
