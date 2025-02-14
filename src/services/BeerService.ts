@@ -1,4 +1,4 @@
-import { Beer } from "../models/Beer";
+import { Beer } from "../models/beer";
 import BeerRepository from "../repository/beerRepository";
 
 class BeerService {

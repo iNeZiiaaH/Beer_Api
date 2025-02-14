@@ -1,5 +1,5 @@
 import client from "../config/database";
-import { Ingredient } from "../models/Ingredient";
+import { Ingredient } from "../models/ingredient";
 
 class IngredientRepository {
     async getAll(): Promise<Ingredient[]> {

@@ -1,5 +1,5 @@
 import CategoryRepository from "../repository/categoryRepository";
-import { Category } from "../models/Category";
+import { Category } from "../models/category";
 
 class CategoryService {
     async getAllCategories(): Promise<Category[]> {

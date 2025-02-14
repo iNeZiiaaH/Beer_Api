@@ -1,5 +1,5 @@
 import IngredientRepository from "../repository/ingredientRepository";
-import { Ingredient } from "../models/Ingredient";
+import { Ingredient } from "../models/ingredient";
 
 class IngredientService {
     async getAllIngredients(): Promise<Ingredient[]> {

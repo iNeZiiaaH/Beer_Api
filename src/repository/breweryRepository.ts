@@ -1,5 +1,5 @@
 import client from "../config/database";
-import { Brewery } from "../models/Brewery";
+import { Brewery } from "../models/brewery";
 
 class BreweryRepository {
     async getAll(): Promise<Brewery[]> {

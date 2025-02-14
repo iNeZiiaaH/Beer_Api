@@ -1,5 +1,5 @@
 import BreweryRepository from "../repository/breweryRepository";
-import { Brewery } from "../models/Brewery";
+import { Brewery } from "../models/brewery";
 
 class BreweryService {
     async getAllBreweries(): Promise<Brewery[]> {

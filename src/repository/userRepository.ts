@@ -1,5 +1,6 @@
 import client from "../config/database";
-import { User } from "../models/User";
+import {User} from "../models/user";
+
 
 class UserRepository {
     async getAll(): Promise<User[]> {
