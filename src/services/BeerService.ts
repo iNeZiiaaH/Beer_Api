@@ -1,5 +1,5 @@
-import BeerRepository from "../repository/beerRepository";
 import { Beer } from "../models/Beer";
+import BeerRepository from "../repository/beerRepository";
 
 class BeerService {
     async getAllBeers(): Promise<Beer[]> {
