@@ -2,7 +2,7 @@ import express from 'express';
 import {
     getAllBeerIngredients,
     getBeerIngredientById,
-} from '../controllers/BeerIngredientController';
+} from '../controllers/beerIngredientController';
 
 const router = express.Router();
 
